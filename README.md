@@ -5,3 +5,5 @@ Program communicates with database via EntityFramework.
 Aproach applied in project is CODE FIRST (database was created based on classes).
 Project uses LINQ expressions to show statictics. 
 
+In repository exists SQL script with initial data for database (initial.sql). 
+
