@@ -23,48 +23,10 @@ namespace BookShopProject.Controllers
             ViewBag.bookId = book.BookId;
         }
 
-        public ActionResult BuyBook(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
-            
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            this.SaveBookInfoInViewBag(book);
-            return View();
-        }
-
-        // GET: Purchases
-        public ActionResult Index()
-        {
-            var purchases = db.Purchases.Include(p => p.Book).Include(p => p.Client);
-            return View(purchases.ToList());
-        }
-
-        // GET: Purchases/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Purchase purchase = db.Purchases.Find(id);
-            if (purchase == null)
-            {
-                return HttpNotFound();
-            }
-            return View(purchase);
-        }
-
         public ActionResult Statictics()
         {
-
-
+            // SQL version: 
+            // 	select top 5 Books.Title, Count(Books.Title) as cnt from Purchases inner join Books on Books.BookId=Purchases.BookRefId group by Books.Title order by cnt desc
             var theMostPopularBooks = (from purchase in db.Purchases
                                        join book in db.Books on purchase.BookRefId equals book.BookId
                                        group purchase by book.Title into number
@@ -78,112 +40,7 @@ namespace BookShopProject.Controllers
             }
 
             return View(titles);
-
-
-                //   return View(theMostPopularBooks.Select(x => db.Books.Find(x.bookId)));
         }
-        //List<Book> books = theMostPopularBooks.ToList().M;
-        //            foreach (var n in theMostPopularBooks)
-        //{
-        //Book b = db.Books.Find(int.Parse(n.bookId.ToString()));
-        //books.Add(b);   
-        //   tmp += n.bookId;
-
-        //}
-        //return tmp;
-
-        //return View(books);
-
-
-
-        // GET: Purchases/Create
-        public ActionResult Create()
-        {
-            ViewBag.BookRefId = new SelectList(db.Books, "BookId", "Title");
-            ViewBag.ClientRefId = new SelectList(db.Clients, "ClientId", "Name");
-            return View();
-        }
-
-        // POST: Purchases/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseId,ClientRefId,BookRefId")] Purchase purchase)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Purchases.Add(purchase);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.BookRefId = new SelectList(db.Books, "BookId", "Title", purchase.BookRefId);
-            ViewBag.ClientRefId = new SelectList(db.Clients, "ClientId", "Name", purchase.ClientRefId);
-            return View(purchase);
-        }
-
-        // GET: Purchases/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Purchase purchase = db.Purchases.Find(id);
-            if (purchase == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BookRefId = new SelectList(db.Books, "BookId", "Title", purchase.BookRefId);
-            ViewBag.ClientRefId = new SelectList(db.Clients, "ClientId", "Name", purchase.ClientRefId);
-            return View(purchase);
-        }
-
-        // POST: Purchases/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PurchaseId,ClientRefId,BookRefId")] Purchase purchase)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(purchase).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.BookRefId = new SelectList(db.Books, "BookId", "Title", purchase.BookRefId);
-            ViewBag.ClientRefId = new SelectList(db.Clients, "ClientId", "Name", purchase.ClientRefId);
-            return View(purchase);
-        }
-
-        // GET: Purchases/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Purchase purchase = db.Purchases.Find(id);
-            if (purchase == null)
-            {
-                return HttpNotFound();
-            }
-            return View(purchase);
-        }
-
-        // POST: Purchases/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Purchase purchase = db.Purchases.Find(id);
-            db.Purchases.Remove(purchase);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -206,12 +63,26 @@ namespace BookShopProject.Controllers
                 Author a = db.Authors.Find(book.AuthorRefId);
                 ViewBag.authorFullName = a.Name + " " + a.Surname;
                 
-
                 return View("ConfirmationOfPurchase", p);
-
             }
             this.SaveBookInfoInViewBag(book);
             return View(client);
+        }
+
+        public ActionResult BuyBook(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            this.SaveBookInfoInViewBag(book);
+            return View();
         }
 
         protected override void Dispose(bool disposing)
