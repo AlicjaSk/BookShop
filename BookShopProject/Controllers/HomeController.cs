@@ -20,7 +20,7 @@ namespace BookShopProject.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "BOOK SHOP CONTACT INFORMATION";
 
             return View();
         }
