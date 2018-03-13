@@ -1,0 +1,13 @@
+﻿@model List<string>
+@{
+    ViewBag.Title = "Statictics";
+}
+
+<h2>Statictics</h2>
+<h3>Top 5 books</h3>
+<ol start="1">
+    @foreach (var item in Model)
+    {
+        <li>@Html.DisplayFor(modelItem => item)</li>
+    }
+</ol>

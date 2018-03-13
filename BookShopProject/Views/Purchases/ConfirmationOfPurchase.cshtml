@@ -1,0 +1,102 @@
+﻿@model BookShopProject.Models.Purchase
+
+@{
+    ViewBag.Title = "Summary";
+}
+
+<br /><br /><br />
+
+<div class="alert alert-success">
+    <strong>Success!</strong> Your purchase was registered! Thank you for shopping!
+</div>
+
+    <h3 align="center"><b>SUMMARY</b></h3>
+
+<div>
+
+    <h4>Shopping details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Purchase number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </dt>
+
+        <dd>
+            @ViewBag.authorFullName
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Cost)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    <h4>Your personal information</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.NumberStreet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.NumberStreet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.City)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to book list", "Index", "Books", null, new { @class = "btn btn-primary btn-large" })
+</p>
+
