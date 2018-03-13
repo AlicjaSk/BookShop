@@ -241,7 +241,6 @@
     <Content Include="Views\Purchases\BuyBook.cshtml" />
     <Content Include="Views\Purchases\ConfirmationOfPurchase.cshtml" />
     <Content Include="Views\Purchases\Statictics.cshtml" />
-    <Content Include="Views\Purchases\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
